@@ -1,0 +1,16 @@
+<html>
+<title>{{table_name}}</title>
+<head></head>
+<body>
+    <b>{{table_name}}</b>
+
+    <form action=/view">
+        Искать по <input type="text" name="search_by" value={{search_by}}><br>
+        <input type="text" name="search_val" value=><br>
+        <input type="submit" value="Поиск"><br>
+    </form>
+
+    {{table}}
+
+</body>
+</html>

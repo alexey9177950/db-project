@@ -1,0 +1,17 @@
+<html>
+<title>Авторизация</title>
+<head></head>
+<body>
+    <b>Войти</b>
+    <form action="/login" method="post">
+        <input type="radio" name="role" value="student" checked> Студент<br>
+        <input type="radio" name="role" value="mentor"> Ментор<br>
+        Логин: <input type="text" name="login"><br>
+        Пароль:<input type="password" name="password"><br>
+        <input type="submit" value="Подтвердить"><br>
+    </form>
+
+    <a href="/reg_student"> Регистрация студента </a><br>
+    <a href="/reg_mentor"> Регистрация ментора </a>
+</body>
+</html>
