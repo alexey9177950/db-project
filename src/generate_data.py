@@ -2,8 +2,7 @@ import random as rd
 import string
 import datetime
 
-from helpers import insert_data
-
+from helpers import insert_data, salted_hash
 
 def now():
     return datetime.datetime.now()
@@ -71,6 +70,9 @@ def gen_mentors(n_samples=15):
     global FK_MENTORS
     data = [(rand_str(), rand_str(), rand_name(), rd.choice(FK_ORGANISATIONS), now())
                         for i in range(n_samples)]
+    
+    data[0] = ('login', salted_hash('1'), rand_name(), rd.choice(FK_ORGANISATIONS), now())
+    
     FK_MENTORS = list(set(i[0] for i in data))
     insert_data('Mentors', data)
 
@@ -83,7 +85,7 @@ def gen_students(n_samples=15):
     insert_data('Students', data)
 
 
-def gen_projects(n_samples=10):
+def gen_projects(n_samples=50):
     global FK_PROJECTS
     data = [(11 * i, rand_str(), rand_str(20), rand_str(20), rand_bool(), rand_str(), rd.choice(FK_MENTORS), now())
                 for i in range(n_samples)]

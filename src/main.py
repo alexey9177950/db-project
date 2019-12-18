@@ -5,7 +5,7 @@ from generate_data import generate_data
 from helpers import SRC_PATH, PROJ_PATH, DB_PATH, run_sql
 from pages import app
 
-def init_db(gen_data=True, rewrite=True):
+def init_db(gen_data=True, rewrite=False):
     if not rewrite and os.path.isfile(DB_PATH):
         return
     commands = open(join(SRC_PATH, "create_db.sql")).read().split('\n\n')

@@ -1,10 +1,32 @@
 import os
 from os.path import dirname, join
+from hashlib import sha256
+from flask import escape
 import sqlite3
 
 SRC_PATH = dirname(os.path.realpath(__file__))
 PROJ_PATH = dirname(SRC_PATH)
 DB_PATH = join(PROJ_PATH, 'data', 'base.db')
+
+def table_to_html(table, header=None):
+    html_rows = []
+    if header:
+        html_rows.append(" ".join("<th>" + i + "</th>" for i in header))
+    for row in table:
+        html_rows.append(" ".join("<td>" + str(i) + "</td>" for i in row))
+    # TODO: escape
+
+    return "<table>" +\
+           "\n".join("<tr>" + i + "</tr>" for i in html_rows) +\
+           "</table>"
+
+
+def salted_hash(s):
+    hasher = sha256()
+    hasher.update('PREEEEFIX'.encode('utf-8'))
+    hasher.update(s.encode('utf-8'))
+    return hasher.hexdigest()
+
 
 def run_sql(query, params=[], commit=False):
     connection = sqlite3.connect(DB_PATH)
@@ -34,15 +56,3 @@ def insert_data(table_name, values):
     connection.cursor().executemany(template % table_name, values)
     connection.commit()
     connection.close()
-
-
-def run_select(table_name, search_by=None, search_val=None):
-    if search_by:
-        query = "SELECT * FROM {table_name} WHERE {search_by}={search_val}".format(
-            table_name=table_name,
-            search_by=search_by,
-            search_val=search_val
-        )
-    else:
-        query = "SELECT * FROM {table_name}".format(table_name=table_name)
-    return run_sql(query)
