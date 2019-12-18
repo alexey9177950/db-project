@@ -3,8 +3,23 @@ from flask import Flask, render_template, request, redirect, url_for, make_respo
 
 from helpers import PROJ_PATH
 from helpers import run_select
+from hashlib import sha256
+
 
 app = Flask(__name__, static_url_path=join(PROJ_PATH, 'static'))
+
+
+def check_user(handler):
+    def new_handler():
+        role = request.cookies.get('user_role')
+        login = request.cookies.get('login')
+        passw_hash = request.cookies.get('passw_hash')
+        try:
+            check_passw(role, login, pass_hash)
+        except: pass
+        return redirect(url_for('page_login'))
+    new_handler.__name__ = handler.__name__
+    return new_handler
 
 
 def check_user(handler):

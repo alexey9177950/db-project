@@ -20,7 +20,7 @@ DROP TABLE IF EXISTS Universities;
 
 
 CREATE TABLE Organisations (
-    id integer,
+    id integer PRIMARY KEY AUTOINCREMENT,
     name varchar,
     type varchar,
     is_active boolean,
@@ -28,7 +28,7 @@ CREATE TABLE Organisations (
 );
 
 CREATE TABLE Universities (
-    id integer,
+    id integer PRIMARY KEY AUTOINCREMENT,
     name varchar,
     date_added integer   
 );
@@ -53,11 +53,10 @@ CREATE TABLE Students (
 );
 
 CREATE TABLE Projects (
-    id integer,
+    id integer PRIMARY KEY AUTOINCREMENT,
     name varchar,
     description varchar,
     result_description varchar,
-    grade integer,
     is_active boolean,
     keywords varchar,
     mentor varchar,
@@ -66,7 +65,7 @@ CREATE TABLE Projects (
 );
 
 CREATE TABLE Teams (
-    id integer,
+    id integer PRIMARY KEY AUTOINCREMENT,
     name varchar,
     creator varchar,
     date_created datetime,
@@ -78,6 +77,7 @@ CREATE TABLE Team_Project_rel (
     project integer,
     is_approved boolean,
     date_created datetime,
+    PRIMARY KEY (team, project),
     FOREIGN KEY (team) REFERENCES Teams(id),
     FOREIGN KEY (project) REFERENCES Project(id)
 );
@@ -87,6 +87,7 @@ CREATE TABLE Student_Team_rel (
     team integer,
     is_approved integer,
     date_created datetime,
+    PRIMARY KEY (student, team),
     FOREIGN KEY (student) REFERENCES Students(login),
     FOREIGN KEY (team) REFERENCES Teams(id)
 );
@@ -97,6 +98,7 @@ CREATE TABLE Student_Project_rel (
     grade integer,
     is_approved boolean,
     date_created datetime,
+    PRIMARY KEY (student, project),
     FOREIGN KEY (student) REFERENCES Students(login),
     FOREIGN KEY (project) REFERENCES Project(id)
 );
