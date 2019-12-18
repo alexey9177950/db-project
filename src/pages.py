@@ -112,3 +112,54 @@ def logged():
         return render_template("main_mentor.html")
     else:
         return render_template("main_student.html")
+
+@app.route("/reg_student", methods=['GET'])
+def reg_student_get():
+    return render_template('form_reg_student.html')
+
+
+@app.route("/reg_student", methods=['POST'])
+def reg_student_post():
+    login = request.form['login']
+    passw = request.form['password']
+    full_name = request.form['fullname']
+    uni_group = request.form['unigroup']
+    run_sql(
+        "INSERT INTO Students(login, password_hash, full_name, uni_group) VALUES (?,?,?,?);",
+        [login, passw, full_name, uni_group],
+        commit=True
+    )
+    return "registration completed"
+ 
+
+@app.route("/reg_mentor", methods=['GET'])
+def reg_mentor_get():
+    return render_template('form_reg_mentor.html')
+
+
+@app.route("/reg_mentor", methods=['POST'])
+def reg_mentor_post():
+    login = request.form['login']
+    passw = request.form['password']
+    full_name = request.form['fullname']
+    run_sql(
+        "INSERT INTO Mentors(login, password_hash, full_name) VALUES (?,?,?);",
+        [login, passw, full_name],
+        commit=True
+    )
+    return "registration completed"
+
+
+@app.route("/add_proj", methods=['GET'])
+def add_proj_get():
+    return render_template('form_add_project.html')
+
+
+@app.route("/add_proj", methods=['POST'])
+def add_proj_post():
+    run_sql(
+        "INSERT INTO Projects(name, description, keywords) VALUES (?,?,?);",
+        [request.form[i] for i in ['name', 'description', 'keywords']],
+        commit=True
+    )
+    return "project added"

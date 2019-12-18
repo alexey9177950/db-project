@@ -8,6 +8,7 @@ SRC_PATH = dirname(os.path.realpath(__file__))
 PROJ_PATH = dirname(SRC_PATH)
 DB_PATH = join(PROJ_PATH, 'data', 'base.db')
 
+
 def table_to_html(table, header=None):
     html_rows = []
     if header:
@@ -15,7 +16,6 @@ def table_to_html(table, header=None):
     for row in table:
         html_rows.append(" ".join("<td>" + str(i) + "</td>" for i in row))
     # TODO: escape
-
     return "<table>" +\
            "\n".join("<tr>" + i + "</tr>" for i in html_rows) +\
            "</table>"
